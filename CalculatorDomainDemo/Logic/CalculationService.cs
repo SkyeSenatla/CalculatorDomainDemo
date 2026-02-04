@@ -15,22 +15,22 @@ namespace CalculatorDomain.Logic
 
         public async Task<Calculation> CalculateAsync(CalculationRequest request)
         {
-            if (request.Operation == OperationType.Divide && request.right == 0)
+            if (request.operand == OperationType.Divide && request.right == 0)
                 throw new InvalidOperationException("Division by zero is not allowed.");
 
-            double result = request.Operation switch
+            double result = request.operand switch
             {
-                OperationType.Add => request.left + request.right,
-                OperationType.Subtract => request.left - request.right,
-                OperationType.Multiply => request.left * request.right,
-                OperationType.Divide => request.left / request.right,
+                OperationType.Add => request.Left + request.right,
+                OperationType.Subtract => request.Left - request.right,
+                OperationType.Multiply => request.Left * request.right,
+                OperationType.Divide => request.Left / request.right,
                 _ => throw new InvalidOperationException("Unsupported operation.")
             };
 
             var calculation = new Calculation(
-                request.left,
+                request.Left,
                 request.right,
-                request.Operation,
+                request.operand,
                 result);
 
             await _store.SaveAsync(calculation);

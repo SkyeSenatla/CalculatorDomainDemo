@@ -1,4 +1,4 @@
-using CalculatorDomainDemo.Domain;  
+using CalculatorDomainDemo.Domain;
 using CalculatorDomain.Logic;
 using Microsoft.AspNetCore.Mvc;
 using CalculatorDomainDemo;
@@ -17,21 +17,43 @@ namespace API.controllers
             _calculator = calculator;
         }
 
-        [HttpGet] //GET /api/calculations
+      /*  [HttpGet] //GET /api/calculations
         public async Task<IActionResult> GetAll()
         {
-            var calculations = await _calculator.GetAllAsync(); 
+            var calculations = await _calculator.GetAllAsync();
             return Ok(calculations);
         }
-
+       */
         [HttpPost] //POST /api/calculations
-        public async Task<IActionResult> Calculate([FromBody]CalculationRequest request)
+        public async Task<IActionResult> Calculate([FromBody] CreateCalculationDto dto)
         {
-            var result = await _calculator.CalculateAsync(request);
-            return Ok(result);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+
+                var request = new CalculationRequest(
+                dto.left,
+                dto.right,
+                dto.operand
+                );
+                var calculation = await _calculator.CalculateAsync(request);
+
+                var response = new CalculationResultDto
+                {
+                    Result = calculation.Result,
+                    Operation = calculation.Operation.ToString()
+                };
+
+                return Ok(response);
+
+            }
+
 
         }
-        
+
     }
 
 }
