@@ -27,14 +27,8 @@ namespace API.controllers
         [HttpPost] //POST /api/calculations
         public async Task<IActionResult> Calculate([FromBody] CreateCalculationDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            else
-            {
 
-                var request = new CalculationRequest(
+                 var request = new CalculationRequest(
                 dto.left,
                 dto.right,
                 dto.operand
@@ -48,9 +42,8 @@ namespace API.controllers
                 };
 
                 return Ok(response);
-
-            }
-
+          
+          
 
         }
 
