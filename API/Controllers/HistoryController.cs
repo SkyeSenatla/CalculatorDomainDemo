@@ -1,8 +1,10 @@
 using CalculatorDomain.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/history")]
+[Authorize(Roles ="Admin")]
 public class HistoryController : ControllerBase
 {
     private readonly CalculatorService _calculator;

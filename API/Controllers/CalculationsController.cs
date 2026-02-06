@@ -2,12 +2,14 @@ using CalculatorDomainDemo.Domain;
 using CalculatorDomain.Logic;
 using Microsoft.AspNetCore.Mvc;
 using CalculatorDomainDemo;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace API.controllers
 {
     [ApiController]
     [Route("api/calculations")]
+    [Authorize]
     public class CalculationsController : ControllerBase
     {
         private readonly CalculatorService _calculator;
