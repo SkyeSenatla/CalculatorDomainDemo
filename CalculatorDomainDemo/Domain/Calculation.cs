@@ -3,25 +3,29 @@ namespace CalculatorDomainDemo.Domain
 {
     public class Calculation
     {
-        public Guid Id { get; }
-        public double Left { get; }
-        public double Right { get; }
-        public OperationType Operation { get; }
-        public double Result { get; }
-        public DateTime CreatedAt { get; }
+        public int Id { get; set; }
+        public double Left { get; set; }
+        public double Right { get; set; }
+        public OperationType Operation { get; set; }
+        public double Result { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Calculation(
+            int id,
             double left,
             double right,
             OperationType operation,
-            double result)
+            double result, DateTime createdAt)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Left = left;
             Right = right;
             Operation = operation;
             Result = result;
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = createdAt;
         }
+
+        public Calculation (){}
+
     }
 }

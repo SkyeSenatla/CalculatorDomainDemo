@@ -28,10 +28,12 @@ namespace CalculatorDomain.Logic
             };
 
             var calculation = new Calculation(
+                0, // id will be set by the store
                 request.Left,
                 request.right,
                 request.operand,
-                result);
+                result,
+                DateTime.UtcNow);
 
             await _store.SaveAsync(calculation);
 

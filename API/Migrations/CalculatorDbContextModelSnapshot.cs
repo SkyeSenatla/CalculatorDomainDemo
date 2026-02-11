@@ -90,9 +90,21 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Left")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("Operation")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Result")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Right")
+                        .HasColumnType("REAL");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Calculations");
+                    b.ToTable("Calculation", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

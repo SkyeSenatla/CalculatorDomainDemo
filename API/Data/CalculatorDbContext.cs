@@ -18,7 +18,7 @@ public class CalculatorDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Calculation>()
+        modelBuilder.Entity<Calculation>().ToTable("Calculation")
             .HasKey(c => c.Id);
     }
 

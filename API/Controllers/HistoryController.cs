@@ -1,8 +1,8 @@
 using CalculatorDomain.Logic;
-
 using CalculatorDomainDemo.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using API.DTOs;
 
 [ApiController]
@@ -10,19 +10,17 @@ using API.DTOs;
 [Authorize(Roles ="Admin")]
 public class HistoryController : ControllerBase
 {
-    private readonly CalculatorService _calculator;
-    private readonly EFCalculationStore _context; 
+    private readonly CalculatorDbContext _context; 
 
-    public HistoryController(CalculatorService calculator, EFCalculationStore calculatorDbContext)
+    public HistoryController(CalculatorDbContext context)
     {
-        _calculator = calculator;
-        _context = calculatorDbContext; 
+        _context = context; 
     }
 
     [HttpGet]
     public async Task<IActionResult> GetHistory()
     {
-        var history = await _context.LoadAllAsync();
+        var history = await _context.Calculations.ToListAsync();
 
         var response = history.Select(c => new CalculationHistoryItemDto
         {

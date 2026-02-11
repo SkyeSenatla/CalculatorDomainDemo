@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(CalculatorDbContext))]
-    [Migration("20260209104403_InitialCreate")]
+    [Migration("20260210093022_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -93,9 +93,21 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Left")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("Operation")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Result")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Right")
+                        .HasColumnType("REAL");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Calculations");
+                    b.ToTable("Calculation", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

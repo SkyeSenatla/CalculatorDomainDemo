@@ -59,15 +59,13 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// Seed the database with initial data
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<CalculatorDbContext>();
-    await dbContext.Database.EnsureCreatedAsync();
-    
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-    await IdentitySeeder.SeedAsync(userManager,roleManager);
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await IdentitySeeder.SeedAsync(userManager, roleManager);
 }
 
 app.UseAuthentication();

@@ -1,11 +1,11 @@
+C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.deps.json
+C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.dll
+C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.pdb
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.AssemblyInfoInputs.cache
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.AssemblyInfo.cs
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.csproj.CoreCompileInputs.cache
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.sourcelink.json
-C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.deps.json
-C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.dll
-C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\bin\Debug\net8.0\CalculatorDomainDemo.pdb
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.dll
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\refint\CalculatorDomainDemo.dll
 C:\Users\Skye\Desktop\CalculatorDomainDemo\CalculatorDomainDemo\obj\Debug\net8.0\CalculatorDomainDemo.pdb

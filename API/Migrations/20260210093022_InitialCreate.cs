@@ -51,16 +51,20 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Calculations",
+                name: "Calculation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Left = table.Column<double>(type: "REAL", nullable: false),
+                    Right = table.Column<double>(type: "REAL", nullable: false),
+                    Operation = table.Column<int>(type: "INTEGER", nullable: false),
+                    Result = table.Column<double>(type: "REAL", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Calculations", x => x.Id);
+                    table.PrimaryKey("PK_Calculation", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,7 +230,7 @@ namespace API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Calculations");
+                name: "Calculation");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
