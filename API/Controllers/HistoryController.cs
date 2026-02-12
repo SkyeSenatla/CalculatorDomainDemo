@@ -53,4 +53,23 @@ public class HistoryController : ControllerBase
 
         return Ok(response);
     }
+    [HttpGet("Number")]
+    public async Task<IActionResult> GetCalculationsByNumber([FromQuery] double number)
+    {
+        var calculations = await _context.Calculations
+            .Where(c => c.IsActive && (c.Left == number || c.Right == number))
+            .Include(c => c.User)
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync();
+
+        var response = calculations.Select(c => new CalculationHistoryItemDto
+        {
+            Left = c.Left,
+            Right = c.Right,
+            Operation = c.Operation.ToString(),
+            Result = c.Result
+        });
+
+        return Ok(response);
+    }
 }

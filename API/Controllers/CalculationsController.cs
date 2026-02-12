@@ -150,6 +150,7 @@ namespace API.controllers
 
         [HttpPost] //POST /api/calculations
         public async Task<IActionResult> Calculate([FromBody] CreateCalculationDto dto)
+    
         {
             // Get userId from JWT claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -170,8 +171,9 @@ namespace API.controllers
                 Result = calculation.Result,
                 Operation = calculation.Operation.ToString()
             };
-
+           
             return Ok(response);
         }
+
     }
 }
