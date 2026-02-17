@@ -9,6 +9,6 @@ import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <App /> // The main App component that contains the entire application.
   </React.StrictMode>
 );
