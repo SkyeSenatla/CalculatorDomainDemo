@@ -1,22 +1,9 @@
-// ADDED: useEffect import for the cleanup demo (Day 3 — Step 5)
-import { useEffect } from "react";
+// Header.jsx — A simple presentational component.
+// Now that Layout.jsx handles the main page header via composition,
+// this component is kept as a reusable standalone header
+// that could be used in other parts of the app if needed.
 
 function Header() {
-  // ADDED (Step 5): useEffect with a cleanup function to prevent memory leaks.
-  // setInterval runs a "heartbeat" log every second while this component is mounted.
-  // The returned cleanup function clears the interval when the component unmounts,
-  // preventing it from running forever in the background.
-  useEffect(() => {
-    const timer = setInterval(() => {
-      console.log("Heartbeat: App is active");
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-      console.log("Cleanup: Heartbeat stopped");
-    };
-  }, []);
-
   return (
     <header>
       <h1>Calculator Dashboard</h1>
