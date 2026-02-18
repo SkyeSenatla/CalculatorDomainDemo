@@ -1,96 +1,78 @@
-// App.jsx — The root component of our application.
-// This is where we compose all of our components together.
-//
-// === DAY 2: STATE & EVENTS ===
-//
-// Yesterday this component used STATIC data (a plain const array).
-// Today we convert it to use STATE so the UI can respond to user actions.
-//
-// Key concepts introduced today:
-//   1. useState — React's hook for storing data that can change over time.
-//   2. Events — Responding to user actions (clicks, typing, form submissions).
-//   3. Controlled Components — Form inputs whose values are driven by React state.
-//   4. Lifting State Up — The parent (App) owns the data, children communicate via props/callbacks.
-//   5. Immutability — We never mutate state directly; we always create new copies.
-//
-// Data flow with state:
-//   User Action → Event Handler → setState → React Re-renders → Updated UI
-//
-// Architecture:
-//   App (owns state)
-//     ├── Header
-//     ├── CalculationForm (sends new calculations UP to App via onAdd prop)
-//     └── CalculationList (receives calculations DOWN from App via calculations prop)
-
-import { useState } from "react";
+// CHANGED: Added useEffect to the import (Day 3 — Side Effects & Async)
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import CalculationList from "./components/CalculationList";
 import CalculationForm from "./components/CalculationForm";
 
 function App() {
-  // === useState Hook ===
-  // useState returns an array with exactly two elements:
-  //   [0] calculations     — the CURRENT value of the state
-  //   [1] setCalculations  — a FUNCTION to update the state and trigger a re-render
-  //
-  // We initialize it with some sample data so the list isn't empty on first load.
-  // Later (Day 3+) this will come from the API instead.
-  const [calculations, setCalculations] = useState([
-    { id: 1, left: 10, right: 5, operation: "Add", result: 15 },
-    { id: 2, left: 20, right: 4, operation: "Divide", result: 5 },
-  ]);
+  // CHANGED: Initial state is now an empty array instead of hardcoded data.
+  // The data will be "fetched" by useEffect on mount (Step 3).
+  const [calculations, setCalculations] = useState([]);
 
-  // === Lifting State Up — The Handler Function ===
-  // This function is defined HERE in the parent (App), but will be CALLED
-  // by the child (CalculationForm) when the user submits a new calculation.
-  //
-  // Why define it here? Because App owns the "calculations" state.
-  // Only the component that owns state should update it.
-  // The child doesn't know about setCalculations — it just calls onAdd().
-  //
-  // Data flow: CalculationForm calls onAdd(newCalc) → App runs addCalculation → state updates → re-render
+  // ADDED: Loading state — tracks whether the simulated API call is in progress (Step 3)
+  const [isLoading, setIsLoading] = useState(false);
+
+  // ADDED: Error state — stores any error message from the simulated fetch (Step 3)
+  const [error, setError] = useState(null);
+
+  // ADDED (Step 1): useEffect to sync React state with the browser tab title.
+  // This is a "side effect" — we're reaching outside React to update an external browser system.
+  // The dependency array [calculations] means this only re-runs when calculations changes.
+  useEffect(() => {
+    document.title = `Calculations (${calculations.length})`;
+    console.log("Effect ran: Title updated");
+  }, [calculations]);
+
+  // ADDED (Step 3): useEffect to simulate fetching data from an API on component mount.
+  // The empty dependency array [] means this runs ONCE when the component first renders.
+  useEffect(() => {
+    const fetchCalculations = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // Simulating a 1.5 second API delay
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        const mockApiResponse = [
+          { id: 1, left: 10, right: 5, operation: "Add", result: 15 },
+          { id: 2, left: 20, right: 4, operation: "Divide", result: 5 },
+        ];
+
+        setCalculations(mockApiResponse);
+      } catch (err) {
+        setError("Failed to load calculations.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCalculations();
+  }, []);
+
   const addCalculation = (newCalculation) => {
-    // === IMMUTABILITY IS KEY ===
-    //
-    // WHY NOT: calculations.push(newCalculation)?
-    //   - .push() MUTATES the existing array (modifies it in place).
-    //   - React compares the old state reference with the new one.
-    //   - If we push, the reference is the SAME array object, so React thinks nothing changed.
-    //   - Result: No re-render! The UI would NOT update.
-    //
-    // CORRECT: Use the spread operator to create a brand new array.
-    //   [...calculations]         — copies all existing items into a new array
-    //   [...calculations, newItem] — copies all existing + adds the new one at the end
-    //
-    // React sees a NEW array reference → detects a change → triggers a re-render.
     setCalculations([...calculations, newCalculation]);
   };
 
-  // === Derived State ===
-  // We do NOT need a separate useState for the count.
-  // Since totalCalculations depends entirely on "calculations",
-  // we can just calculate it on every render.
-  //
-  // Rule: If you can compute it from existing state, don't store it as separate state.
-  // When "calculations" changes → App re-renders → totalCalculations is recalculated automatically.
-  const totalCalculations = calculations.length;
+  // CHANGED (Step 6): Replaced simple count with a derived totalSum.
+  // No useEffect needed — just calculate it during the render.
+  // This recalculates automatically whenever calculations changes.
+  const totalSum = calculations.reduce((acc, curr) => acc + curr.result, 0);
 
   return (
     <div>
-      {/* Header component — no props needed, just renders a title */}
       <Header />
 
-      {/* Display the derived count — updates automatically when calculations changes */}
-      <p>Total Calculations: {totalCalculations}</p>
+      {/* CHANGED: Now displays the derived total sum instead of just a count */}
+      <p>Total Calculations: {calculations.length} | Sum of Results: {totalSum}</p>
 
-      {/* CalculationForm receives addCalculation as the "onAdd" prop.
-          This is how the child communicates back to the parent.
-          The child calls props.onAdd(data), which runs addCalculation here. */}
       <CalculationForm onAdd={addCalculation} />
 
-      {/* CalculationList receives the calculations array as a prop.
-          When state updates above, this component re-renders with the new data. */}
-      <CalculationList calculations={calculations} />
+      {/* ADDED (Step 4): Conditional rendering for loading, error, and data states.
+          This handles "API latency" in the UI so users never see a blank screen. */}
+      {isLoading && <p className="spinner">Loading calculation history...</p>}
+      {error && <p className="error-text">{error}</p>}
+      {!isLoading && <CalculationList calculations={calculations} />}
     </div>
   );
 }

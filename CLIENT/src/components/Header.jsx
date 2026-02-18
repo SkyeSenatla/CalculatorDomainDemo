@@ -1,9 +1,22 @@
-// Header.jsx — A simple presentational component.
-// Components are functions that return JSX.
-// JSX looks like HTML but is actually JavaScript syntax that React transforms into DOM elements.
-// This component takes no props — it just renders a static header.
+// ADDED: useEffect import for the cleanup demo (Day 3 — Step 5)
+import { useEffect } from "react";
 
 function Header() {
+  // ADDED (Step 5): useEffect with a cleanup function to prevent memory leaks.
+  // setInterval runs a "heartbeat" log every second while this component is mounted.
+  // The returned cleanup function clears the interval when the component unmounts,
+  // preventing it from running forever in the background.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      console.log("Heartbeat: App is active");
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      console.log("Cleanup: Heartbeat stopped");
+    };
+  }, []);
+
   return (
     <header>
       <h1>Calculator Dashboard</h1>
@@ -11,6 +24,4 @@ function Header() {
   );
 }
 
-// Every component file must export its component so other files can import it.
-// "export default" means this is the main thing this file provides.
 export default Header;
