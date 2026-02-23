@@ -12,7 +12,7 @@ namespace API.controllers
 {
     [ApiController]
     [Route("api/calculations")]
-    [Authorize]
+   [Authorize]
     public class CalculationsController : ControllerBase
     {
         private readonly CalculatorService _calculator;
@@ -153,7 +153,7 @@ namespace API.controllers
     
         {
             // Get userId from JWT claims
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("User ID not found in token");

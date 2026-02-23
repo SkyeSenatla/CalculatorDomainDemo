@@ -5,8 +5,30 @@
 
 import { useState, useEffect } from "react";
 import storageService from "../services/storageService";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export function useCalculations() {
+  const [calculations, setCalculations] = useState([]);
+
+  const GetCalculations = async () => {
+    try{
+      const response = await fetch(`${API_URL}/history`);
+      if(!response.ok){S
+        throw new Error('Failed to fetch calculations');
+      }
+      const data = await response.json();
+      setCalculations(data);
+    }
+    catch(error){
+      console.error('Error fetching calculations:', error);
+
+    }
+  };
+  GetCalculations();
+
+ [];
+  return { calculations };
+  /*
   // State: the list of all calculations, initialized from localStorage
   const [calculations, setCalculations] = useState(() =>
     storageService.getCalculations()
@@ -44,7 +66,7 @@ export function useCalculations() {
   const totalSum = calculations.reduce((acc, curr) => acc + curr.result, 0);
 
   // Return exactly what the UI needs — nothing more, nothing less
-  return { calculations, isLoading, addCalculation, totalSum };
+  return { calculations, isLoading, addCalculation, totalSum }; */
 }
 
 export default useCalculations;
