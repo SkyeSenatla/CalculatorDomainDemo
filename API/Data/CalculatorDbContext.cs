@@ -24,8 +24,8 @@ public class CalculatorDbContext
             .ToTable("Calculation")
             .HasKey(c => c.Id);
 
-        // Configure relationship
-        modelBuilder.Entity<Calculation>()
+        //Configure relationship
+       modelBuilder.Entity<Calculation>()
             .HasOne(c => c.User)
             .WithMany()
             .HasForeignKey(c => c.UserId)

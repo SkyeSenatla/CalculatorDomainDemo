@@ -19,7 +19,7 @@ var dataDirectory = Path.Combine(
 
 // Add services to the container
 builder.Services.AddDbContext<CalculatorDbContext>(options =>
-options.UseSqlite(builder.Configuration.GetConnectionString("CalculatorDb")));
+options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<CalculatorDbContext>()
@@ -56,9 +56,20 @@ builder.Services.AddAuthentication(options =>
     };
 })
 ;
+builder.Services.AddCors ( options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173").AllowAnyHeader()
+        .AllowAnyMethod();
+        //allow credentials
+    });
+});
 
 
 var app = builder.Build();
+
+app.UseCors("AllowReactApp"); 
 
 // Seed the database with initial data
 using (var scope = app.Services.CreateScope())

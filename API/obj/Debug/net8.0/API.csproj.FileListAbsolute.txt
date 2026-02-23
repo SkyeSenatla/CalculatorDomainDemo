@@ -139,3 +139,5 @@ C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\refint\API.dll
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\API.pdb
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\ref\API.dll
+C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\Npgsql.dll
+C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

@@ -16,6 +16,7 @@ public class TokenService
     {
         var claims = new List<Claim>
         {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.UserName)
         };
 
