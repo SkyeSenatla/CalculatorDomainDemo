@@ -3,6 +3,40 @@
    ============================================ */
 
 /* Reset and base styles */
+
+/* ============================================ 
+Error & Retry States 
+============================================ */ 
+.error-container { 
+text-align: center; 
+padding: 2rem; 
+background-color: #fff5f5; 
+border: 1px solid #feb2b2; 
+border-radius: 8px; 
+margin-top: 1rem; 
+} 
+.error-message { 
+color: #c53030; 
+font-weight: 600; 
+margin-bottom: 1rem; 
+} 
+.retry-button { 
+padding: 0.6rem 1.5rem; 
+background: linear-gradient(135deg, #e53e3e, #c53030); 
+color: white; 
+border: none; 
+border-radius: 6px; 
+font-size: 1rem; 
+font-weight: 600; 
+cursor: pointer; 
+transition: opacity 0.2s, transform 0.1s; 
+} 
+.retry-button:hover { 
+opacity: 0.9; 
+} 
+.retry-button:active { 
+transform: scale(0.97); 
+} 
 *,
 *::before,
 *::after {

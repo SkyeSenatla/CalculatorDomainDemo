@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\API\\API.csproj": {}
+    "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\Api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\API\\API.csproj": {
+    "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\Api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\Api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\API\\API.csproj",
+        "projectPath": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\Api\\API.csproj",
         "packagesPath": "C:\\Users\\Skye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\API\\obj\\",
+        "outputPath": "C:\\Users\\Skye\\Desktop\\CalculatorDomainDemo\\Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Skye\\AppData\\Roaming\\NuGet\\NuGet.Config"

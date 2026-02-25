@@ -89,7 +89,7 @@ namespace API.Controllers
             // Return the token to the client.
             // The client is responsible for storing and sending
             // this token with future requests.
-            return Ok(new { token, user.Id });
+            return Ok(new { token });
         }
     }
 }

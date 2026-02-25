@@ -1,0 +1,14 @@
+/*Form Validation Errors 
+============================================ */ 
+.form-error { 
+width: 100%; 
+color: #c53030; 
+font-size: 0.9rem; 
+font-weight: 500; 
+margin-top: 0.5rem; 
+} 
+.field-error { 
+color: #c53030; 
+font-size: 0.8rem; 
+margin-top: 0.25rem; 
+} 
