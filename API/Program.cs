@@ -32,6 +32,11 @@ builder.Services.AddScoped<CalculatorService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<EFCalculationStore>();
 
+// ================================================================
+// DEMO 6 (Step 6C): Register SignalR in the DI container
+// ================================================================
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,30 +51,35 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true, 
+        ValidateIssuerSigningKey = true,
 
         ValidIssuer = jwt["Issuer"],
         ValidAudience = jwt["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"])
         )
-    
+
     };
 })
 ;
-builder.Services.AddCors ( options =>
+
+// ================================================================
+// DEMO 6 (Step 6C): Updated CORS policy to allow SignalR's credentials
+// ================================================================
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173").AllowAnyHeader()
-        .AllowAnyMethod();
-        //allow credentials
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // Required for SignalR WebSocket negotiation
     });
 });
 
 
 var app = builder.Build();
 
-app.UseCors("AllowReactApp"); 
+app.UseCors("AllowReactApp");
 
 // Seed the database with initial data
 using (var scope = app.Services.CreateScope())
@@ -85,9 +95,12 @@ app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapControllers(); 
+app.MapControllers();
 
-
+// ================================================================
+// DEMO 6 (Step 6C): Map the SignalR Hub endpoint
+// ================================================================
+app.MapHub<API.Hubs.CalculationHub>("/hubs/calculations");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -102,5 +115,3 @@ if (app.Environment.IsDevelopment())
 
 
 app.Run();
-
-

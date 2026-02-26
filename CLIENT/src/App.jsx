@@ -1,7 +1,13 @@
+// ================================================================
 // App.jsx — The top-level orchestrator component.
+// ================================================================
 // Following the Single Responsibility Principle (SRP), this component only
 // handles high-level orchestration: it connects the custom hook (logic)
 // to the presentational components (UI) and wraps everything in a Layout.
+//
+// DEMO 1 (Step 1D): Fixed destructuring to include 'error' and 'retry'
+// DEMO 4 (Step 4E): Added 'removeCalculation' and passes it to CalculationList
+// ================================================================
 
 import { useEffect } from "react";
 import Layout from "./components/Layout";
@@ -10,9 +16,12 @@ import CalculationList from "./components/CalculationList";
 import { useCalculations } from "./hooks/useCalculations";
 
 function App() {
-  // Destructure exactly what we need from the custom hook.
-  // All calculation logic lives inside useCalculations — not here.
-  const { calculations, isLoading, error, addCalculation, totalSum, retry } = useCalculations();
+  // ================================================================
+  // DEMO 1 (Step 1D): Complete destructuring — includes error & retry
+  // DEMO 4 (Step 4E): Added removeCalculation for soft-delete
+  // ================================================================
+  const { calculations, isLoading, error, addCalculation, removeCalculation, totalSum, retry } =
+    useCalculations();
 
   // Side effect: updates the browser tab title whenever calculations change
   useEffect(() => {
@@ -27,22 +36,22 @@ function App() {
         Total Calculations: {calculations.length} | Sum of Results: {totalSum}
       </p>
 
-      {/* The form component handles user input for new calculations */}
+      {/* DEMO 1: The form component now POSTs to the API instead of client-side calc */}
       <CalculationForm onAdd={addCalculation} />
 
-      {/* Conditional rendering: show a loading message while data is being fetched,
-          otherwise display the calculation history list */}
-       {isLoading ? ( 
-        <p className="loading">Fetching history...</p> ) 
-        : error ? ( 
-        <div className="error-container"> 
-          <p className="error-message">Error: {error}</p> 
-          <button className="retry-button" onClick={retry}> 
-            Retry 
-          </button> 
-        </div> 
-      ) : ( 
-        <CalculationList calculations={calculations} /> 
+      {/* Conditional rendering: loading → error → data */}
+      {isLoading ? (
+        <p className="loading">Fetching history...</p>
+      ) : error ? (
+        <div className="error-container">
+          <p className="error-message">Error: {error}</p>
+          <button className="retry-button" onClick={retry}>
+            Retry
+          </button>
+        </div>
+      ) : (
+        // DEMO 4 (Step 4E): Pass removeCalculation as onDeactivate prop
+        <CalculationList calculations={calculations} onDeactivate={removeCalculation} />
       )}
     </Layout>
   );

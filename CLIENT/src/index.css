@@ -4,39 +4,39 @@
 
 /* Reset and base styles */
 
-/* ============================================ 
-Error & Retry States 
-============================================ */ 
-.error-container { 
-text-align: center; 
-padding: 2rem; 
-background-color: #fff5f5; 
-border: 1px solid #feb2b2; 
-border-radius: 8px; 
-margin-top: 1rem; 
-} 
-.error-message { 
-color: #c53030; 
-font-weight: 600; 
-margin-bottom: 1rem; 
-} 
-.retry-button { 
-padding: 0.6rem 1.5rem; 
-background: linear-gradient(135deg, #e53e3e, #c53030); 
-color: white; 
-border: none; 
-border-radius: 6px; 
-font-size: 1rem; 
-font-weight: 600; 
-cursor: pointer; 
-transition: opacity 0.2s, transform 0.1s; 
-} 
-.retry-button:hover { 
-opacity: 0.9; 
-} 
-.retry-button:active { 
-transform: scale(0.97); 
-} 
+/* ============================================
+Error & Retry States
+============================================ */
+.error-container {
+text-align: center;
+padding: 2rem;
+background-color: #fff5f5;
+border: 1px solid #feb2b2;
+border-radius: 8px;
+margin-top: 1rem;
+}
+.error-message {
+color: #c53030;
+font-weight: 600;
+margin-bottom: 1rem;
+}
+.retry-button {
+padding: 0.6rem 1.5rem;
+background: linear-gradient(135deg, #e53e3e, #c53030);
+color: white;
+border: none;
+border-radius: 6px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: opacity 0.2s, transform 0.1s;
+}
+.retry-button:hover {
+opacity: 0.9;
+}
+.retry-button:active {
+transform: scale(0.97);
+}
 *,
 *::before,
 *::after {
@@ -194,6 +194,10 @@ body {
   border-radius: 0 6px 6px 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   transition: transform 0.15s;
+  /* DEMO 4 (Step 4F): Flexbox layout for card + Remove button */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .calc-card:hover {
@@ -216,4 +220,54 @@ body {
   color: #718096;
   font-style: italic;
   font-size: 1.1rem;
+}
+
+/* ============================================
+   DEMO 1 (Step 1E): Form Validation Errors
+   ============================================ */
+.form-error {
+  width: 100%;
+  color: #c53030;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.field-error {
+  color: #c53030;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   DEMO 2 (Step 2D): Form Field Layout & Validation Styling
+   ============================================ */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 100px;
+}
+
+.input-error {
+  border-color: #c53030 !important;
+  box-shadow: 0 0 0 3px rgba(197, 48, 48, 0.2) !important;
+}
+
+/* ============================================
+   DEMO 4 (Step 4F): Deactivate / Remove Button
+   ============================================ */
+.deactivate-btn {
+  padding: 0.3rem 0.8rem;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.deactivate-btn:hover {
+  opacity: 0.8;
 }
