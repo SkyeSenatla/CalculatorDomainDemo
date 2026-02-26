@@ -7,7 +7,7 @@ using API.DTOs;
 
 [ApiController]
 [Route("api/history")]
-//[Authorize(Roles ="Admin")]
+[Authorize(Roles ="Admin")]
 public class HistoryController : ControllerBase
 {
     private readonly CalculatorDbContext _context; 

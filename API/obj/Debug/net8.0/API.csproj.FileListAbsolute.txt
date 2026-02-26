@@ -141,3 +141,5 @@ C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\API.genruntimeco
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\obj\Debug\net8.0\ref\API.dll
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\Npgsql.dll
 C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Skye\Desktop\CalculatorDomainDemo\API\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

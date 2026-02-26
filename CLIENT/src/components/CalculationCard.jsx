@@ -1,16 +1,23 @@
-// CalculationCard.jsx — A Presentational Component.
-// It receives a single calculation object as a prop and displays it.
-// This component has no state or side effects — it just renders what it's given.
-// This separation makes it easy to reuse wherever a calculation needs to be displayed.
+// ================================================================
+// DEMO 4 (Step 4C): CALCULATION CARD WITH REMOVE BUTTON
+// ================================================================
 
-function CalculationCard({ calculation }) {
+function CalculationCard({ calculation, onDeactivate }) {
   return (
-    // Each card displays one calculation's details in a styled container
     <div className="calc-card">
       <p>
         {calculation.left} {calculation.operation} {calculation.right} ={" "}
         {calculation.result}
       </p>
+      {/* DEMO 4: Remove button triggers PATCH soft-delete */}
+      {onDeactivate && (
+        <button
+          className="deactivate-btn"
+          onClick={() => onDeactivate(calculation.id)}
+        >
+          Remove
+        </button>
+      )}
     </div>
   );
 }
