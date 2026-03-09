@@ -1,14 +1,39 @@
-// Layout.jsx — A reusable page wrapper that uses Component Composition.
-// Instead of passing props down through many levels (prop drilling),
-// we use the {children} prop so Layout doesn't need to know what's inside it.
-// It just provides the "frame" — header, content area, and footer.
+// Layout.jsx — Page Wrapper with Auth-Aware Navigation
+// Uses AuthContext to determine whether to show login or logout controls.
+// Uses React Router's Link for client-side navigation (no full page reload).
+
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Layout({ children, title }) {
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="app-container">
-      {/* The header displays a dynamic title passed as a prop */}
+      {/* Header with navigation */}
       <header className="main-header">
-        <h1>{title}</h1>
+        <div className="header-content">
+          <h1>{title}</h1>
+          <nav className="header-nav">
+            {isAuthenticated ? (
+              <>
+                <Link to="/my-calculations" className="nav-link">My Calculations</Link>
+                <span className="nav-user">Hi, {user?.username}</span>
+                <button onClick={handleLogout} className="nav-logout-btn">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="nav-link">Sign In</Link>
+            )}
+          </nav>
+        </div>
       </header>
 
       {/* {children} renders whatever components are nested inside <Layout> */}

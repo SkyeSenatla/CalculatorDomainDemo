@@ -1,7 +1,3 @@
-// ================================================================
-// DEMO 6 (Step 6B): THE SIGNALR HUB — Real-Time Broadcast Station
-// ================================================================
-
 using Microsoft.AspNetCore.SignalR;
 
 namespace API.Hubs

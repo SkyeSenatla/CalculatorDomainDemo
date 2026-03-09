@@ -32,9 +32,6 @@ builder.Services.AddScoped<CalculatorService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<EFCalculationStore>();
 
-// ================================================================
-// DEMO 6 (Step 6C): Register SignalR in the DI container
-// ================================================================
 builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication(options =>
@@ -62,9 +59,6 @@ builder.Services.AddAuthentication(options =>
 })
 ;
 
-// ================================================================
-// DEMO 6 (Step 6C): Updated CORS policy to allow SignalR's credentials
-// ================================================================
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -97,9 +91,6 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
-// ================================================================
-// DEMO 6 (Step 6C): Map the SignalR Hub endpoint
-// ================================================================
 app.MapHub<API.Hubs.CalculationHub>("/hubs/calculations");
 
 // Configure the HTTP request pipeline.
