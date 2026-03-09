@@ -1,7 +1,4 @@
-// ================================================================
-// DEMO 2 (Step 2B): THE VALIDATION ERROR PARSER
-// ================================================================
-// The "Validation Handshake" — translating .NET ProblemDetails
+// Validation Error Parser — translates .NET ProblemDetails
 // into React-friendly per-field error messages.
 //
 // .NET ProblemDetails (RFC 7807) returns:

@@ -1,7 +1,3 @@
-// ================================================================
-// DEMO 3 (Step 3A): UPDATE CALCULATION DTO — Full Resource Replacement
-// ================================================================
-
 using System.ComponentModel.DataAnnotations;
 using CalculatorDomainDemo;
 

@@ -1,14 +1,3 @@
-// ================================================================
-// DEMO 1 (Step 1B) → DEMO 4 (Step 4D) → DEMO 5 (Step 5B) → DEMO 6 (Step 6G)
-// useCalculations.js — The Custom Hook (Final Version with SignalR)
-// ================================================================
-// This hook evolved through every demo:
-//   DEMO 1: Wired up fetchHistory + addCalculation (pessimistic pattern)
-//   DEMO 4: Added removeCalculation (PATCH soft-delete)
-//   DEMO 5: Added optimistic update pattern (commented out for comparison)
-//   DEMO 6: Integrated SignalR for real-time sync across clients
-// ================================================================
-
 import { useState, useEffect, useCallback } from "react";
 import { fetchCalculations, createCalculation, deactivateCalculation } from "../services/api";
 import { useSignalR } from "./useSignalR";
@@ -18,9 +7,7 @@ export function useCalculations() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // ================================================================
-  // DEMO 1: Fetches calculation history from the API
-  // ================================================================
+  // Fetches calculation history from the API
   const fetchHistory = async (signal) => {
     setIsLoading(true);
     setError(null);
@@ -37,16 +24,13 @@ export function useCalculations() {
     }
   };
 
-  // DEMO 1: Fetch on mount with AbortController for cleanup
+  // Fetch on mount with AbortController for cleanup
   useEffect(() => {
     const controller = new AbortController();
     fetchHistory(controller.signal);
     return () => controller.abort();
   }, []);
 
-  // ================================================================
-  // DEMO 6 (Step 6G): SIGNALR EVENT HANDLERS
-  // ================================================================
   // When the server broadcasts "CalculationCreated", refetch to get the full updated list
   const handleCalculationCreated = useCallback(() => {
     console.log("SignalR: Refetching after CalculationCreated...");
@@ -60,12 +44,10 @@ export function useCalculations() {
     setCalculations((prev) => prev.filter((c) => c.id !== data.id));
   }, []);
 
-  // DEMO 6: Connect to SignalR — events will trigger the handlers above
+  // Connect to SignalR — events will trigger the handlers above
   useSignalR(handleCalculationCreated, handleCalculationDeactivated);
 
-  // ================================================================
-  // DEMO 1 + DEMO 6: PESSIMISTIC ADD — The "Safe" Pattern
-  // ================================================================
+  // PESSIMISTIC ADD — The "Safe" Pattern
   // 1. Send to API first
   // 2. Wait for server confirmation
   // 3. THEN update local state with server's response
@@ -75,18 +57,16 @@ export function useCalculations() {
     setError(null);
     try {
       const result = await createCalculation(left, right, operation);
-      // DEMO 6: No manual refetch needed — SignalR broadcast will trigger handleCalculationCreated
+      // No manual refetch needed — SignalR broadcast will trigger handleCalculationCreated
       return result;
     } catch (err) {
-      // Re-throw so the form can handle validation errors (DEMO 2)
+      // Re-throw so the form can handle validation errors
       throw err;
     }
   };
 
-  // ================================================================
-  // DEMO 5 (Step 5B): OPTIMISTIC ADD — The "Fast" Pattern (commented out for comparison)
-  // ================================================================
-  // To demo: uncomment this function and swap it into the return object below.
+  // OPTIMISTIC ADD — The "Fast" Pattern (commented out for comparison)
+  // To try: uncomment this function and swap it into the return object below.
   // Then use Chrome DevTools → Network → Throttle → "Slow 3G" to show the difference.
   //
   // const addCalculationOptimistic = async (left, right, operation) => {
@@ -128,14 +108,12 @@ export function useCalculations() {
   //   }
   // };
 
-  // ================================================================
-  // DEMO 4 (Step 4D): PATCH — Soft-delete a calculation
-  // ================================================================
-  // DEMO 6: No manual state update — SignalR broadcast will trigger handleCalculationDeactivated
+  // Soft-delete a calculation
+  // No manual state update — SignalR broadcast will trigger handleCalculationDeactivated
   const removeCalculation = async (id) => {
     try {
       await deactivateCalculation(id);
-      // DEMO 6: SignalR handles the state update via handleCalculationDeactivated
+      // SignalR handles the state update via handleCalculationDeactivated
     } catch (err) {
       setError(err.message || "Failed to deactivate calculation");
     }

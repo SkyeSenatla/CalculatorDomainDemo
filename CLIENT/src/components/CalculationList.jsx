@@ -1,7 +1,3 @@
-// ================================================================
-// DEMO 4 (Step 4E): CALCULATION LIST — Passes onDeactivate to each card
-// ================================================================
-
 import CalculationCard from "./CalculationCard";
 
 function CalculationList({ calculations, onDeactivate }) {

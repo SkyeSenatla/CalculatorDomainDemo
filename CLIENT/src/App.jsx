@@ -1,59 +1,48 @@
-// ================================================================
-// App.jsx — The top-level orchestrator component.
-// ================================================================
-// Following the Single Responsibility Principle (SRP), this component only
-// handles high-level orchestration: it connects the custom hook (logic)
-// to the presentational components (UI) and wraps everything in a Layout.
-//
-// DEMO 1 (Step 1D): Fixed destructuring to include 'error' and 'retry'
-// DEMO 4 (Step 4E): Added 'removeCalculation' and passes it to CalculationList
-// ================================================================
+// App.jsx — Top-Level Orchestrator with Routing
+// BrowserRouter wraps the entire app for client-side navigation.
+// AuthProvider wraps routes so all components can access auth state.
+// ProtectedRoute guards private pages — redirects to login if no token.
 
-import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
-import CalculationForm from "./components/Calculation Form/CalculationForm";
-import CalculationList from "./components/CalculationList";
-import { useCalculations } from "./hooks/useCalculations";
+import LoginPage from "./pages/LoginPage";
+import MyCalculations from "./pages/MyCalculations";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Sends users to the right place based on auth status
+function RootRedirect() {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated
+    ? <Navigate to="/my-calculations" replace />
+    : <Navigate to="/login" replace />;
+}
 
 function App() {
-  // ================================================================
-  // DEMO 1 (Step 1D): Complete destructuring — includes error & retry
-  // DEMO 4 (Step 4E): Added removeCalculation for soft-delete
-  // ================================================================
-  const { calculations, isLoading, error, addCalculation, removeCalculation, totalSum, retry } =
-    useCalculations();
-
-  // Side effect: updates the browser tab title whenever calculations change
-  useEffect(() => {
-    document.title = `Calculations (${calculations.length})`;
-  }, [calculations]);
-
   return (
-    // Layout provides the page frame (header, footer) via composition
-    <Layout title="Advanced Calculator">
-      {/* Summary stats shown above the form */}
-      <p className="stats">
-        Total Calculations: {calculations.length} | Sum of Results: {totalSum}
-      </p>
+    <BrowserRouter>
+      <AuthProvider>
+        <Layout title="Advanced Calculator">
+          <Routes>
+            {/* Public route: Login page */}
+            <Route path="/login" element={<LoginPage />} />
 
-      {/* DEMO 1: The form component now POSTs to the API instead of client-side calc */}
-      <CalculationForm onAdd={addCalculation} />
+            {/* Protected route: My Calculations (requires authentication) */}
+            <Route
+              path="/my-calculations"
+              element={
+                <ProtectedRoute>
+                  <MyCalculations />
+                </ProtectedRoute>
+              }
+            />
 
-      {/* Conditional rendering: loading → error → data */}
-      {isLoading ? (
-        <p className="loading">Fetching history...</p>
-      ) : error ? (
-        <div className="error-container">
-          <p className="error-message">Error: {error}</p>
-          <button className="retry-button" onClick={retry}>
-            Retry
-          </button>
-        </div>
-      ) : (
-        // DEMO 4 (Step 4E): Pass removeCalculation as onDeactivate prop
-        <CalculationList calculations={calculations} onDeactivate={removeCalculation} />
-      )}
-    </Layout>
+            {/* Default route: redirect based on auth status */}
+            <Route path="*" element={<RootRedirect />} />
+          </Routes>
+        </Layout>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

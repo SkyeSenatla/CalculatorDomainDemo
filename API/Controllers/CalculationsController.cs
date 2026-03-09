@@ -1,14 +1,3 @@
-// ================================================================
-// CalculationsController.cs — All Calculation Endpoints
-// ================================================================
-// This controller evolved through the demos:
-//   Existing:  GET endpoints (filtering, pagination, sorting, search)
-//   DEMO 1:   POST (create) — already existed, now broadcasts via SignalR
-//   DEMO 3:   PUT (full replacement)
-//   DEMO 4:   PATCH (soft delete / deactivate)
-//   DEMO 6:   SignalR broadcast after POST, PUT, and PATCH mutations
-// ================================================================
-
 using API.DTOs;
 using CalculatorDomain.Logic;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +6,6 @@ using CalculatorDomainDemo.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-// DEMO 6 (Step 6D): SignalR using statements
 using API.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
@@ -31,10 +19,8 @@ namespace API.controllers
     {
         private readonly CalculatorService _calculator;
         private readonly CalculatorDbContext _context;
-        // DEMO 6 (Step 6D): IHubContext for broadcasting to all connected clients
         private readonly IHubContext<CalculationHub> _hubContext;
 
-        // DEMO 6 (Step 6D): Updated constructor to accept IHubContext
         public CalculationsController(
             CalculatorService calculator,
             CalculatorDbContext context,
@@ -44,8 +30,6 @@ namespace API.controllers
             _context = context;
             _hubContext = hubContext;
         }
-
-        // --- Existing GET Endpoints (from previous weeks) ---
 
         // Basic Filtering Endpoint
         [HttpGet("by-operation")]
@@ -177,9 +161,7 @@ namespace API.controllers
             return Ok(new { total, data });
         }
 
-        // ================================================================
-        // DEMO 1 + DEMO 6: POST /api/calculations — Create a new calculation
-        // ================================================================
+        // POST /api/calculations — Create a new calculation
         [HttpPost]
         public async Task<IActionResult> Calculate([FromBody] CreateCalculationDto dto)
         {
@@ -203,10 +185,7 @@ namespace API.controllers
                 Operation = calculation.Operation.ToString()
             };
 
-            // ================================================================
-            // DEMO 6 (Step 6D): SIGNALR BROADCAST
-            // Tell ALL connected clients: "A new calculation was created!"
-            // ================================================================
+            // Broadcast to all connected clients via SignalR
             await _hubContext.Clients.All.SendAsync("CalculationCreated", new
             {
                 id = calculation.Id,
@@ -219,9 +198,7 @@ namespace API.controllers
             return Ok(response);
         }
 
-        // ================================================================
-        // DEMO 3 (Step 3B): PUT /api/calculations/{id} — Full replacement
-        // ================================================================
+        // PUT /api/calculations/{id} — Full replacement
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCalculationDto dto)
         {
@@ -261,9 +238,7 @@ namespace API.controllers
             });
         }
 
-        // ================================================================
-        // DEMO 4 (Step 4A): PATCH /api/calculations/{id}/deactivate — Soft delete
-        // ================================================================
+        // PATCH /api/calculations/{id}/deactivate — Soft delete
         [HttpPatch("{id}/deactivate")]
         public async Task<IActionResult> Deactivate(int id)
         {
@@ -282,10 +257,7 @@ namespace API.controllers
 
             await _context.SaveChangesAsync();
 
-            // ================================================================
-            // DEMO 6 (Step 6D): SIGNALR BROADCAST
-            // Tell ALL connected clients: "A calculation was deactivated!"
-            // ================================================================
+            // Broadcast deactivation to all connected clients via SignalR
             await _hubContext.Clients.All.SendAsync("CalculationDeactivated", new { id = calculation.Id });
 
             return Ok(new { message = "Calculation deactivated", id = calculation.Id });
