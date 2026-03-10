@@ -1,17 +1,32 @@
+"use client";
+
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
-const AuthContext = createContext(null);
+interface AuthContextType {
+  token: string | null;
+  user: { username: string } | null;
+  isAuthenticated: boolean;
+  login: (jwt: string, username: string) => void;
+  logout: () => void;
+}
 
-export function AuthProvider({ children }) {
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Initialize from localStorage so a page refresh preserves the session
-  const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<{ username: string } | null>(null);
+
+  // Hydrate from localStorage after mount (avoids SSR mismatch)
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    if (savedToken) setToken(savedToken);
+    if (savedUser) setUser(JSON.parse(savedUser));
+  }, []);
 
   // Persist the JWT and user data from the API response
-  const login = useCallback((jwt, username) => {
+  const login = useCallback((jwt: string, username: string) => {
     localStorage.setItem("token", jwt);
     localStorage.setItem("user", JSON.stringify({ username }));
     setToken(jwt);
@@ -28,7 +43,7 @@ export function AuthProvider({ children }) {
 
   // Sync auth state across tabs via the storage event
   useEffect(() => {
-    const handleStorageChange = (e) => {
+    const handleStorageChange = (e: StorageEvent) => {
       if (e.key === "token") {
         if (!e.newValue) {
           setToken(null);
