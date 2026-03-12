@@ -24,6 +24,9 @@ export default function NavBar() {
             <Link href="/my-calculations" className="hover:text-gray-300 transition-colors">
               My Calculations
             </Link>
+            <Link href="/history" className="hover:text-gray-300 transition-colors">
+              History
+            </Link>
             <span className="text-gray-400 text-sm">Hi, {user?.username}</span>
             <button
               onClick={handleLogout}
