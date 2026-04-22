@@ -9,6 +9,7 @@ namespace CalculatorDomain.Persistence
     {
         private readonly string _directoryPath;
         private readonly string _filePath;
+        private readonly string Example; 
 
         public FileCalculationStore(string directoryPath)
         {
