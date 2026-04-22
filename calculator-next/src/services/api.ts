@@ -36,3 +36,15 @@ export async function updateCalculation(id: string, left: number, right: number,
 export async function deactivateCalculation(id: string) {
   return await apiClient.patch(`/calculations/${id}/deactivate`);
 }
+
+// Fetch the full calculation history (all active calculations, paginated)
+export async function fetchHistory(searchTerm?: string, signal?: AbortSignal) {
+  // If a search term is provided, use the search endpoint filtered by operation type
+  if (searchTerm) {
+    return await apiClient.get("/calculations/search", {
+      params: { operation: searchTerm },
+      signal,
+    });
+  }
+  return await apiClient.get("/calculations", { signal });
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import CalculationForm from "@/components/CalculationForm";
 import CalculationList from "@/components/CalculationList";
@@ -14,6 +14,13 @@ export default function MyCalculationsPage() {
 
   useEffect(() => {
     document.title = `My Calculations (${calculations.length})`;
+  }, [calculations]);
+
+  // Caching the sorted list so it doesn't re-sort unless calculations actually change.
+  // Without useMemo, every keystroke in the form would re-sort the entire history array.
+  const sortedHistory = useMemo(() => {
+    console.log("Sorting history..."); // Only fires when 'calculations' changes
+    return [...calculations].sort((a, b) => Number(b.id) - Number(a.id));
   }, [calculations]);
 
   return (
@@ -42,7 +49,8 @@ export default function MyCalculationsPage() {
             </button>
           </div>
         ) : (
-          <CalculationList calculations={calculations} onDeactivate={removeCalculation} />
+          // Pass the memoized sorted list instead of raw calculations
+          <CalculationList calculations={sortedHistory} onDeactivate={removeCalculation} />
         )}
       </main>
     </ProtectedRoute>
